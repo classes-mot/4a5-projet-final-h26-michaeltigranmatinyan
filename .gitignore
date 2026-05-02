@@ -11,6 +11,10 @@ logs
 node_modules
 bower_components
 
+# Frontend & Backend node_modules
+Frontend/**/node_modules
+Backend/node_modules
+
 *.sublime*
 
 psd
