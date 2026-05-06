@@ -1,0 +1,37 @@
+.account-page {
+  padding: 32px;
+}
+
+.account-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 480px;
+}
+
+.account-card h2 {
+  margin: 0 0 16px;
+}
+
+.account-field {
+  margin-bottom: 16px;
+}
+
+.account-field label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.account-field input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.account-confirm-btn {
+  padding: 8px 16px;
+  cursor: pointer;
+}
