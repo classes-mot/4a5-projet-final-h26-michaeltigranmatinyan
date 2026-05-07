@@ -4,7 +4,7 @@ let isConnected = false;
 
 export const connectDB = async () => {
   if (isConnected) return;
-  let uri = 'mongodb://localhost:27017/tpSyntWebTigo';
+  let uri = process.env.DB_URI || 'mongodb://localhost:27017/tpSyntWebTigo';
   try {
     await mongoose.connect(uri);
     isConnected = true;

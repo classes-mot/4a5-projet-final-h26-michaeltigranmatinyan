@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault()
     
     try {
-      const response = await fetch('http://localhost:5000/api/users/connexion', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/connexion`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

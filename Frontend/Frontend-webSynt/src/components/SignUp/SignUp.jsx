@@ -21,7 +21,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/inscription', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/inscription`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

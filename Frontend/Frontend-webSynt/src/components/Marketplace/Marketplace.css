@@ -1,40 +1,55 @@
-/* Shared page styles */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400&display=swap');
-
-.page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100svh - 56px);
-  padding: 64px 24px;
-  background: #111214;
+.marketplace-page {
+  padding: 32px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.page-content {
+.marketplace-stripe {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 32px;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.marketplace-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   gap: 16px;
-  max-width: 680px;
 }
 
-.page-title {
-  font-family: 'DM Serif Display', 'Times New Roman', Georgia, serif;
-  font-size: 2.4rem;
-  font-weight: 400;
-  color: #e0e1e4;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  margin: 0;
+.marketplace-content h1 {
+  margin: 0 0 8px;
 }
 
-.page-sub {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-weight: 300;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-  color: #7a7b80;
-  line-height: 1.7;
-  margin: 0;
+.marketplace-content p {
+  margin: 0 0 24px;
+  color: #555;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.item-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  background-color: #fafafa;
 }

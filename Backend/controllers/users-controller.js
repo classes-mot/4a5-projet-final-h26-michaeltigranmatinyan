@@ -14,7 +14,7 @@ export const registerUser = async (req, res, next) => {
     }
 
     if (existingUser) {
-        return next(new HttpError('Un utilisateur avec ce nom d\\'utilisateur existe déjà.', 422));
+        return next(new HttpError("Un utilisateur avec ce nom d'utilisateur existe déjà.", 422));
     }
 
     const createdUser = new User({
