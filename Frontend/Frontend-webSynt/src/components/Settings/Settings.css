@@ -2,27 +2,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 32px;
+  min-height: calc(100vh - 56px);
+  padding: 40px 24px;
 }
 
 .settings-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
   padding: 24px;
+  width: 100%;
   max-width: 480px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.settings-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #333333, #666666);
+  opacity: 0.85;
+}
+
+.settings-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .settings-card h2 {
-  margin: 0 0 16px;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
+  padding: 14px 0;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .settings-row:last-child {
@@ -30,13 +62,27 @@
 }
 
 .settings-row label {
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #222222;
 }
 
 .settings-select {
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #222222;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.settings-select:focus {
+  border-color: #333333;
 }
 
 .toggle {
@@ -46,11 +92,12 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: #ccc;
+  background: #e0e0e0;
+  transition: background-color 0.2s ease;
 }
 
 .toggle--on {
-  background: #555;
+  background: #333333;
 }
 
 .toggle-thumb {
@@ -60,7 +107,8 @@
   height: 20px;
   border-radius: 50%;
   background: white;
-  transition: left 0.2s;
+  transition: left 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .toggle--on .toggle-thumb {

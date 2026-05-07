@@ -1,11 +1,87 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../../context/AuthContext'
 import './Account.css'
 
 export default function Account() {
+  const { token } = useAuth()
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [newPassword, setNewPassword] = useState('')
+  const [successMsg, setSuccessMsg] = useState('')
+  const [submitError, setSubmitError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleConfirm = () => {
-    console.log('Password change confirmed:', newPassword)
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/me`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération du profil')
+        }
+        const data = await response.json()
+        setUser(data.user)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (token) {
+      fetchUserProfile()
+    }
+  }, [token])
+
+  const handleConfirm = async (e) => {
+    e.preventDefault()
+    if (!newPassword || newPassword.trim() === '') {
+      setSubmitError('Le mot de passe ne peut pas être vide.')
+      return
+    }
+
+    setSubmitError('')
+    setSuccessMsg('')
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ password: newPassword })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la mise à jour du mot de passe')
+      }
+
+      setSuccessMsg('Mot de passe changé avec succès !')
+      setNewPassword('')
+    } catch (err) {
+      setSubmitError(err.message)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (error) {
+    return (
+      <main className="account-page">
+        <div className="account-card error-card">
+          <h2>Erreur</h2>
+          <p>{error}</p>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -15,33 +91,18 @@ export default function Account() {
 
         <div className="account-field">
           <label>Nom d'utilisateur</label>
-          <p>username</p>
+          <p className="account-val">{user?.username}</p>
         </div>
 
         <div className="account-field">
           <label>Numéro de téléphone</label>
-          <p>+1 234 567 8900</p>
+          <p className="account-val">{user?.phoneNumber || 'Non renseigné'}</p>
         </div>
 
         <div className="account-field">
           <label>ID du compte</label>
-          <p>#000000</p>
+          <p className="account-val">#{user?.id || user?._id}</p>
         </div>
-
-        <div className="account-field">
-          <label>Changer le mot de passe</label>
-          <input
-            id="new-password"
-            type="password"
-            placeholder="Nouveau mot de passe"
-            value={newPassword}
-            onChange={e => setNewPassword(e.target.value)}
-          />
-        </div>
-
-        <button id="confirm-password" className="account-confirm-btn" onClick={handleConfirm}>
-          Confirmer
-        </button>
       </div>
     </main>
   )

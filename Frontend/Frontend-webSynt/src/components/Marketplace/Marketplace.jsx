@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './Marketplace.css'
 import { useAuth } from '../../context/AuthContext'
+import Posts from '../Posts/Posts'
 
 export default function Marketplace() {
   const { isLoggedIn, token } = useAuth()
@@ -111,27 +112,7 @@ export default function Marketplace() {
         <h1>Marketplace</h1>
         {error && <p className="error-msg">{error}</p>}
         
-        {!loading && !error && items.length === 0 && (
-          <p>Aucun item n'a été trouvé.</p>
-        )}
-
-        <div className="items-grid">
-          {items.map(item => (
-            <div className="item-card" key={item.id}>
-              <h2>{item.titre}</h2>
-              <p className="item-desc">{item.description}</p>
-              
-              <div className="item-creator-info">
-                <span>Vendeur : </span>
-                <span className="underline-info">{item.creator?.username || 'Inconnu'}</span>
-              </div>
-              <div className="item-creator-info">
-                <span>Contact : </span>
-                <span className="underline-info">{item.creator?.phoneNumber || 'Non renseigné'}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+        {!loading && !error && <Posts items={items} />}
       </div>
     </main>
   )
