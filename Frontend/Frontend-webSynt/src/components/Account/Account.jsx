@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import UserPostsContainer from '../ContainerPost/UserPostsContainer'
 import './Account.css'
 
 export default function Account() {
@@ -38,41 +39,6 @@ export default function Account() {
     }
   }, [token])
 
-  const handleConfirm = async (e) => {
-    e.preventDefault()
-    if (!newPassword || newPassword.trim() === '') {
-      setSubmitError('Le mot de passe ne peut pas être vide.')
-      return
-    }
-
-    setSubmitError('')
-    setSuccessMsg('')
-    setIsSubmitting(true)
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/profile`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ password: newPassword })
-      })
-
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de la mise à jour du mot de passe')
-      }
-
-      setSuccessMsg('Mot de passe changé avec succès !')
-      setNewPassword('')
-    } catch (err) {
-      setSubmitError(err.message)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   if (error) {
     return (
       <main className="account-page">
@@ -103,6 +69,8 @@ export default function Account() {
           <label>ID du compte</label>
           <p className="account-val">#{user?.id || user?._id}</p>
         </div>
+
+        <UserPostsContainer token={token} user={user} />
       </div>
     </main>
   )

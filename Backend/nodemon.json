@@ -1,6 +1,6 @@
 {
   "env": {
     "PORT": "5000",
-    "DB_URI": "mongodb+srv://<db_username>:<db_password>@tpsyntweb.adkfd8p.mongodb.net/?appName=TpSyntWeb"
+    "DB_URI": "mongodb+srv://Backend:1@tpsyntweb.adkfd8p.mongodb.net/?appName=TpSyntWeb"
   }
 }
