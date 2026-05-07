@@ -12,10 +12,32 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    login()
-    navigate('/')
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/users/connexion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: form.username,
+          password: form.password
+        })
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      login()
+      navigate('/')
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   return (
