@@ -24,7 +24,7 @@ export default function Account() {
         </div>
 
         <div className="account-field">
-          <label htmlFor="new-password">Changer le mot de passe</label>
+          <label>Changer le mot de passe</label>
           <input
             id="new-password"
             type="password"

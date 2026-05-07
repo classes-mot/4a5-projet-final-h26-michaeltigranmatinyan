@@ -25,7 +25,7 @@ export default function SignUp() {
         <p className="auth-sub">Créez votre compte Tech Marketplace.</p>
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
-            <label className="auth-label" htmlFor="signup-username">Nom d'utilisateur</label>
+            <label>Nom d'utilisateur</label>
             <input
               id="signup-username"
               className="auth-input"
@@ -38,7 +38,7 @@ export default function SignUp() {
             />
           </div>
           <div className="auth-field">
-            <label className="auth-label" htmlFor="signup-password">Mot de passe</label>
+            <label>Mot de passe</label>
             <input
               id="signup-password"
               className="auth-input"
@@ -51,7 +51,7 @@ export default function SignUp() {
             />
           </div>
           <div className="auth-field">
-            <label className="auth-label" htmlFor="signup-confirm">Répéter le mot de passe</label>
+            <label>Répéter le mot de passe</label>
             <input
               id="signup-confirm"
               className="auth-input"

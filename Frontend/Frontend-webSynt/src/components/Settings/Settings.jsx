@@ -29,7 +29,7 @@ export default function Settings() {
         </div>
 
         <div className="settings-row">
-          <label htmlFor="language-select">Langue</label>
+          <label>Langue</label>
           <select
             id="language-select"
             className="settings-select"

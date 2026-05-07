@@ -21,12 +21,12 @@ export default function Login() {
   return (
     <main className="auth-page">
       <div className="auth-card">
-        <h1 className="auth-title">Log In</h1>
+        <h1>Log In</h1>
         <p className="auth-sub">Bienvenue sur Tech Marketplace.</p>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
-            <label className="auth-label" htmlFor="login-username">Nom d'utilisateur</label>
+            <label>Nom d'utilisateur</label>
             <input
               id="login-username"
               className="auth-input"
@@ -40,7 +40,7 @@ export default function Login() {
           </div>
 
           <div className="auth-field">
-            <label className="auth-label" htmlFor="login-password">Mot de passe</label>
+            <label>Mot de passe</label>
             <input
               id="login-password"
               className="auth-input"
