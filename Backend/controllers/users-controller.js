@@ -73,3 +73,55 @@ export const loginUser = async (req, res, next) => {
     // confirm
     res.status(200).json({ userId: existingUser.id, username: existingUser.username, token: token });
 };
+
+// GET Récupérer le profil pour les rafraichisement
+export const getMe = async (req, res, next) => {
+    const userId = req.userData.userId;
+
+    let user;
+    try {
+        user = await User.findById(userId, '-password');
+    } catch (err) {
+        return next(new HttpError('Récupération du profil échouée.', 500));
+    }
+
+    if (!user) {
+        return next(new HttpError('Utilisateur non trouvé.', 404));
+    }
+
+    res.json({ user: user.toObject({ getters: true }) });
+};
+
+// PUT Mettre à jour les informations de contact
+export const updateProfile = async (req, res, next) => {
+    const userId = req.userData.userId;
+    const { username, password } = req.body;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        return next(new HttpError('Mise à jour échouée.', 500));
+    }
+
+    if (!user) {
+        return next(new HttpError('Utilisateur non trouvé.', 404));
+    }
+
+    if (username) user.username = username;
+    if (password) user.password = password;
+
+    try {
+        await user.save();
+    } catch (err) {
+        return next(new HttpError('Erreur lors de la sauvegarde du profil.', 500));
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
+// POST Déconnexion
+export const logoutUser = async (req, res, next) => {
+    // Avec JWT, la déconnexion se fait côté client (suppression du token)
+    res.status(200).json({ message: 'Déconnexion réussie.' });
+};

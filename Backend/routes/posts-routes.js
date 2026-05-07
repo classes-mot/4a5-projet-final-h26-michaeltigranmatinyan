@@ -27,7 +27,7 @@ router.post(
     postsControllers.addPost
 );
 
-router.patch(
+router.put(
     '/:id',
     [
         check('titre').not().isEmpty(),
