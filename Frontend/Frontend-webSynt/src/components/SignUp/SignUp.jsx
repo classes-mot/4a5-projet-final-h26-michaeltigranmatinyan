@@ -7,6 +7,7 @@ export default function SignUp() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ username: '', password: '', confirm: '', phoneNumber: '' })
+  const [validationError, setValidationError] = useState('')
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -14,10 +15,21 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+    setValidationError('')
+
+    if (!form.username.trim() || !form.phoneNumber.trim() || !form.password.trim() || !form.confirm.trim()) {
+      setValidationError("Veuillez remplir tous les champs")
+      return
+    }
+
+    if (form.password.length < 6) {
+      setValidationError("Le mot de passe doit contenir au moins 6 caractères")
+      return
+    }
+
     if (form.password !== form.confirm) {
-      alert("Les mots de passe ne correspondent pas");
-      return;
+      setValidationError("Les mots de passe ne correspondent pas")
+      return
     }
 
     try {
@@ -51,6 +63,9 @@ export default function SignUp() {
       <div className="auth-card">
         <h1 className="auth-title">Sign Up</h1>
         <p className="auth-sub">Créez votre compte Tech Marketplace.</p>
+
+        {validationError && <p className="error-msg" style={{color: '#e74c3c', fontSize: '0.9rem', marginBottom: '16px', textAlign: 'center'}}>{validationError}</p>}
+
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
             <label>Nom d'utilisateur</label>
@@ -63,6 +78,8 @@ export default function SignUp() {
               onChange={handleChange}
               placeholder="choisissez un nom d'utilisateur"
               autoComplete="username"
+              required
+              minLength={3}
             />
           </div>
           <div className="auth-field">
@@ -76,6 +93,9 @@ export default function SignUp() {
               onChange={handleChange}
               placeholder="votre numéro de téléphone"
               autoComplete="tel"
+              required
+              pattern="^[0-9+\-\s()]{7,15}$"
+              title="Veuillez entrer un numéro de téléphone valide"
             />
           </div>
           <div className="auth-field">
@@ -89,6 +109,8 @@ export default function SignUp() {
               onChange={handleChange}
               placeholder="••••••••"
               autoComplete="new-password"
+              required
+              minLength={6}
             />
           </div>
           <div className="auth-field">
@@ -102,6 +124,8 @@ export default function SignUp() {
               onChange={handleChange}
               placeholder="••••••••"
               autoComplete="new-password"
+              required
+              minLength={6}
             />
           </div>
           <button id="signup-submit" className="auth-btn" type="submit">

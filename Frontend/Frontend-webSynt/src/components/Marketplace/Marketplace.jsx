@@ -39,6 +39,12 @@ export default function Marketplace() {
   const handleAddItem = async (e) => {
     e.preventDefault()
     setSubmitError(null)
+
+    if (!newItem.titre.trim()) {
+      setSubmitError(t('title_required') || "Le titre est requis")
+      return
+    }
+
     setIsSubmitting(true)
     
     try {
