@@ -10,6 +10,7 @@ import Account from './components/Account/Account'
 import Settings from './components/Settings/Settings'
 import Login from './components/Login/Login'
 import SignUp from './components/SignUp/SignUp'
+import './i18n.js';
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem('token'))

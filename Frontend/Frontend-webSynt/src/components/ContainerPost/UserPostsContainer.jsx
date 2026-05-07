@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import UserPostsList from '../../UserPostsBubble/UserPostsList'
 import '../../UserPostsBubble/UserPosts.css'
 
 export default function UserPostsContainer({ token, user }) {
+  const { t } = useTranslation()
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,7 +15,7 @@ export default function UserPostsContainer({ token, user }) {
         setLoading(true)
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/items`)
         if (!response.ok) {
-          throw new Error('Impossible de récupérer les posts.')
+          throw new Error(t('error_fetching'))
         }
         const data = await response.json()
 
@@ -47,7 +49,7 @@ export default function UserPostsContainer({ token, user }) {
 
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.message || 'Erreur lors de la suppression.')
+        throw new Error(data.message || t('error_deleting'))
       }
 
       setPosts(prevPosts => prevPosts.filter(p => (p.id || p._id) !== postId))
@@ -56,12 +58,12 @@ export default function UserPostsContainer({ token, user }) {
     }
   }
   if (error) {
-    return <div className="user-posts-error">Erreur: {error}</div>
+    return <div className="user-posts-error">{t('error')}{error}</div>
   }
 
   return (
     <div className="user-posts-container">
-      <h3>Mes publications</h3>
+      <h3>{t('my_posts')}</h3>
       <UserPostsList posts={posts} onDelete={handleDeletePost} />
     </div>
   )

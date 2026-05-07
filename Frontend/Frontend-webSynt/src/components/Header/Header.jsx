@@ -1,10 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useTranslation } from 'react-i18next'
 import './Header.css'
 
 export default function Header() {
   const { isLoggedIn, logout } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const handleLogout = () => {
     logout()
@@ -16,7 +18,7 @@ export default function Header() {
       <div className="header-spacer" />
 
       <div className="header-brand">
-        <NavLink to="/" className="header-brand-text">Tech Marketplace</NavLink>
+        <NavLink to="/" className="header-brand-text">{t('brand')}</NavLink>
       </div>
 
       <nav className="header-nav">
@@ -26,7 +28,7 @@ export default function Header() {
             isActive ? 'header-nav-link header-nav-link--active' : 'header-nav-link'
           }
         >
-          Marché/Inventaire
+          {t('market_inventory')}
         </NavLink>
         <NavLink
           to="/settings"
@@ -34,7 +36,7 @@ export default function Header() {
             isActive ? 'header-nav-link header-nav-link--active' : 'header-nav-link'
           }
         >
-          Paramètres
+          {t('settings')}
         </NavLink>
 
         {isLoggedIn ? (
@@ -45,14 +47,14 @@ export default function Header() {
                 isActive ? 'header-nav-link header-nav-link--active' : 'header-nav-link'
               }
             >
-              Compte
+              {t('account')}
             </NavLink>
             <button
               id="header-logout-btn"
               className="header-nav-link header-logout-btn"
               onClick={handleLogout}
             >
-              Log Out
+              {t('logout')}
             </button>
           </>
         ) : (
@@ -63,14 +65,14 @@ export default function Header() {
                 isActive ? 'header-nav-link header-nav-link--active' : 'header-nav-link'
               }
             >
-              Log In
+              {t('login')}
             </NavLink>
             <NavLink
               to="/signup"
               id="header-signup-btn"
               className="header-nav-link header-signup-btn"
             >
-              Sign Up
+              {t('signup')}
             </NavLink>
           </>
         )}

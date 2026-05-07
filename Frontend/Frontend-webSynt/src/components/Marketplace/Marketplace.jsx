@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import './Marketplace.css'
 import { useAuth } from '../../context/AuthContext'
 import Posts from '../Posts/Posts'
 
 export default function Marketplace() {
+  const { t } = useTranslation()
   const { isLoggedIn, token } = useAuth()
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -19,7 +21,7 @@ export default function Marketplace() {
       setLoading(true)
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/items`)
       if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des items')
+        throw new Error(t('error_fetching_items'))
       }
       const data = await response.json()
       setItems(data.posts)
@@ -51,7 +53,7 @@ export default function Marketplace() {
 
       const data = await response.json()
       if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de la création')
+        throw new Error(data.message || t('error_creating'))
       }
 
       await fetchItems()
@@ -68,18 +70,18 @@ export default function Marketplace() {
     <main className="marketplace-page">
       {isLoggedIn && (
         <div className="marketplace-stripe">
-          <span>Prêt à vendre ?</span>
-          <button className="add-btn" onClick={() => setShowModal(true)}>+ Add</button>
+          <span>{t('ready_to_sell')}</span>
+          <button className="add-btn" onClick={() => setShowModal(true)}>{t('add')}</button>
         </div>
       )}
 
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>Ajouter un Item</h2>
+            <h2>{t('add_item_title')}</h2>
             <form onSubmit={handleAddItem} className="modal-form">
               <div className="form-group">
-                <label>Titre</label>
+                <label>{t('title')}</label>
                 <input 
                   type="text" 
                   value={newItem.titre} 
@@ -88,7 +90,7 @@ export default function Marketplace() {
                 />
               </div>
               <div className="form-group">
-                <label>Description</label>
+                <label>{t('description')}</label>
                 <textarea 
                   value={newItem.description} 
                   onChange={e => setNewItem({...newItem, description: e.target.value})}
@@ -98,9 +100,9 @@ export default function Marketplace() {
               </div>
               {submitError && <p className="error-msg">{submitError}</p>}
               <div className="modal-actions">
-                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Annuler</button>
+                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>{t('cancel')}</button>
                 <button type="submit" className="submit-btn" disabled={isSubmitting}>
-                  {isSubmitting ? 'Ajout...' : 'Soumettre'}
+                  {isSubmitting ? t('adding') : t('submit')}
                 </button>
               </div>
             </form>
@@ -109,7 +111,7 @@ export default function Marketplace() {
       )}
       
       <div className="marketplace-content">
-        <h1>Marketplace</h1>
+        <h1>{t('marketplace')}</h1>
         {error && <p className="error-msg">{error}</p>}
         
         {!loading && !error && <Posts items={items} />}

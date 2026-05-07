@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import './Settings.css'
 import { useTheme } from '../../context/ThemeContext'
+import { useTranslation } from 'react-i18next'
 
 const LANGUAGES = [
   { value: 'fr', label: 'Français' },
@@ -9,15 +9,19 @@ const LANGUAGES = [
 
 export default function Settings() {
   const { isDark, toggleTheme } = useTheme()
-  const [language, setLanguage] = useState('fr')
+  const { t, i18n } = useTranslation()
+
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value)
+  }
 
   return (
     <main className="settings-page">
       <div className="settings-card">
-        <h2>Paramètres</h2>
+        <h2>{t('settings')}</h2>
 
         <div className="settings-row">
-          <label>Apparence</label>
+          <label>{t('appearance')}</label>
           <button
             id="theme-toggle"
             className={`toggle ${isDark ? 'toggle--on' : 'toggle--off'}`}
@@ -29,12 +33,12 @@ export default function Settings() {
         </div>
 
         <div className="settings-row">
-          <label>Langue</label>
+          <label>{t('language')}</label>
           <select
             id="language-select"
             className="settings-select"
-            value={language}
-            onChange={e => setLanguage(e.target.value)}
+            value={i18n.resolvedLanguage || 'fr'}
+            onChange={handleLanguageChange}
           >
             {LANGUAGES.map(lang => (
               <option key={lang.value} value={lang.value}>

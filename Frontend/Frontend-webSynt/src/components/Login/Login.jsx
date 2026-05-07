@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useTranslation } from 'react-i18next'
 import './Login.css'
 
 export default function Login() {
+  const { t } = useTranslation()
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ username: '', password: '' })
@@ -43,12 +45,12 @@ export default function Login() {
   return (
     <main className="auth-page">
       <div className="auth-card">
-        <h1>Log In</h1>
-        <p className="auth-sub">Bienvenue sur Tech Marketplace.</p>
+        <h1>{t('login')}</h1>
+        <p className="auth-sub">{t('welcome_msg')}</p>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
-            <label>Nom d'utilisateur</label>
+            <label>{t('username')}</label>
             <input
               id="login-username"
               className="auth-input"
@@ -62,7 +64,7 @@ export default function Login() {
           </div>
 
           <div className="auth-field">
-            <label>Mot de passe</label>
+            <label>{t('password')}</label>
             <input
               id="login-password"
               className="auth-input"
@@ -76,13 +78,13 @@ export default function Login() {
           </div>
 
           <button id="login-submit" className="auth-btn" type="submit">
-            Log In
+            {t('login')}
           </button>
         </form>
 
         <p className="auth-footer">
-          Pas encore de compte?{' '}
-          <Link to="/signup" className="auth-link">Sign Up</Link>
+          {t('no_account_yet')}{' '}
+          <Link to="/signup" className="auth-link">{t('signup')}</Link>
         </p>
       </div>
     </main>
