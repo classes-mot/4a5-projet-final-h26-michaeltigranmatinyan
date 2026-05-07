@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault()
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/connexion`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export default function Login() {
         throw new Error(responseData.message);
       }
 
-      login()
+      login(responseData.token)
       navigate('/')
     } catch (err) {
       alert(err.message);

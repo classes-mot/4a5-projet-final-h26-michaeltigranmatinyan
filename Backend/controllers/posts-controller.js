@@ -5,7 +5,7 @@ import HttpError from '../util/http-error.js';
 // GET All Posts
 export const getAllPosts = async (req, res, next) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find().populate('creator', 'username phoneNumber');
         res.json({ posts: posts.map(post => post.toObject({ getters: true })) });
     } catch (err) {
         return next(new HttpError('Erreur lors de la récupération des posts.', 500));

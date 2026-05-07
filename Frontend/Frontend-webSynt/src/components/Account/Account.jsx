@@ -19,6 +19,11 @@ export default function Account() {
         </div>
 
         <div className="account-field">
+          <label>Numéro de téléphone</label>
+          <p>+1 234 567 8900</p>
+        </div>
+
+        <div className="account-field">
           <label>ID du compte</label>
           <p>#000000</p>
         </div>

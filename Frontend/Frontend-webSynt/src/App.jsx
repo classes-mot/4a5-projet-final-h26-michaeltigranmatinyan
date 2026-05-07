@@ -12,10 +12,21 @@ import Login from './components/Login/Login'
 import SignUp from './components/SignUp/SignUp'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [token, setToken] = useState(() => localStorage.getItem('token'))
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('token'))
 
-  const loginHandler = () => setIsLoggedIn(true)
-  const logoutHandler = () => setIsLoggedIn(false)
+  const loginHandler = (jwtToken) => {
+    if (jwtToken) {
+      localStorage.setItem('token', jwtToken)
+      setToken(jwtToken)
+      setIsLoggedIn(true)
+    }
+  }
+  const logoutHandler = () => {
+    localStorage.removeItem('token')
+    setToken(null)
+    setIsLoggedIn(false)
+  }
 
   const router = createBrowserRouter([
     {
@@ -48,7 +59,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <AuthContext.Provider value={{ isLoggedIn, login: loginHandler, logout: logoutHandler }}>
+      <AuthContext.Provider value={{ isLoggedIn, token, login: loginHandler, logout: logoutHandler }}>
         <RouterProvider router={isLoggedIn ? routerLoggedIn : router} />
       </AuthContext.Provider>
     </ThemeProvider>

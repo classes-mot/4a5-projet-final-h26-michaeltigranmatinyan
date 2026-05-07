@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 // POST Inscription de l'utilisateur
 export const registerUser = async (req, res, next) => {
-    const { username, password } = req.body; 
+    const { username, password, phoneNumber } = req.body; 
 
     let existingUser;
     try {
@@ -19,7 +19,8 @@ export const registerUser = async (req, res, next) => {
 
     const createdUser = new User({
         username,
-        password 
+        password,
+        phoneNumber
     });
 
     try {
@@ -95,7 +96,7 @@ export const getMe = async (req, res, next) => {
 // PUT Mettre à jour les informations de contact
 export const updateProfile = async (req, res, next) => {
     const userId = req.userData.userId;
-    const { username, password } = req.body;
+    const { username, password, phoneNumber } = req.body;
 
     let user;
     try {
@@ -110,6 +111,7 @@ export const updateProfile = async (req, res, next) => {
 
     if (username) user.username = username;
     if (password) user.password = password;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
 
     try {
         await user.save();

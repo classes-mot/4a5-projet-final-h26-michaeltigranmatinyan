@@ -3,13 +3,25 @@ import { createContext, useContext, useState } from 'react'
 export const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [token, setToken] = useState(() => localStorage.getItem('token'))
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('token'))
 
-  const login = () => setIsLoggedIn(true)
-  const logout = () => setIsLoggedIn(false)
+  const login = (jwtToken) => {
+    if (jwtToken) {
+      localStorage.setItem('token', jwtToken)
+      setToken(jwtToken)
+      setIsLoggedIn(true)
+    }
+  }
+  
+  const logout = () => {
+    localStorage.removeItem('token')
+    setToken(null)
+    setIsLoggedIn(false)
+  }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

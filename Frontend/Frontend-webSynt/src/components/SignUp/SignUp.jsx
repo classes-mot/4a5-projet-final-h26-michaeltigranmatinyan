@@ -6,7 +6,7 @@ import './SignUp.css'
 export default function SignUp() {
   const { login } = useAuth()
   const navigate = useNavigate()
-  const [form, setForm] = useState({ username: '', password: '', confirm: '' })
+  const [form, setForm] = useState({ username: '', password: '', confirm: '', phoneNumber: '' })
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -21,14 +21,15 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/inscription`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           username: form.username,
-          password: form.password
+          password: form.password,
+          phoneNumber: form.phoneNumber
         })
       });
 
@@ -38,7 +39,7 @@ export default function SignUp() {
         throw new Error(responseData.message);
       }
 
-      login()
+      login(responseData.token)
       navigate('/')
     } catch (err) {
       alert(err.message);
@@ -62,6 +63,19 @@ export default function SignUp() {
               onChange={handleChange}
               placeholder="choisissez un nom d'utilisateur"
               autoComplete="username"
+            />
+          </div>
+          <div className="auth-field">
+            <label>Numéro de téléphone</label>
+            <input
+              id="signup-phone"
+              className="auth-input"
+              type="tel"
+              name="phoneNumber"
+              value={form.phoneNumber}
+              onChange={handleChange}
+              placeholder="votre numéro de téléphone"
+              autoComplete="tel"
             />
           </div>
           <div className="auth-field">
