@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import UserPostsContainer from '../ContainerPost/UserPostsContainer'
 import './Account.css'
-
+//commit
 export default function Account() {
   const { token } = useAuth()
   const [user, setUser] = useState(null)
