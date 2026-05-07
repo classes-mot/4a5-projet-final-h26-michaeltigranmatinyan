@@ -12,10 +12,37 @@ export default function SignUp() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    login()
-    navigate('/')
+    
+    if (form.password !== form.confirm) {
+      alert("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/inscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: form.username,
+          password: form.password
+        })
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      login()
+      navigate('/')
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   return (
