@@ -17,20 +17,10 @@ export default function Account() {
     const fetchUserProfile = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération du profil')
-        }
-        const data = await response.json()
-        setUser(data.user)
-      } catch (err) {
-        console.warn("Backend unavailable, using mock user profile.");
+        // Demo Mode: Mock User Profile
         setUser({ username: 'MockUser', phoneNumber: '1234567890', id: 'mock_id_1' });
-        setError(null);
+      } catch (err) {
+        setError('Erreur lors de la récupération du profil');
       } finally {
         setLoading(false)
       }

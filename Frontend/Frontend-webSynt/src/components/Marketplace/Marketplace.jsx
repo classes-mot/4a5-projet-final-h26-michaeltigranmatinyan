@@ -19,19 +19,16 @@ export default function Marketplace() {
   const fetchItems = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/items`)
-      if (!response.ok) {
-        throw new Error(t('error_fetching_items'))
-      }
-      const data = await response.json()
-      setItems(data.posts)
-    } catch (err) {
-      console.warn("Backend unavailable, using mock items.");
-      setItems([
+      // Demo Mode: Mock Fetch Items
+      const storedItems = JSON.parse(localStorage.getItem('demo_items')) || [
         { _id: '1', titre: 'Mock Item 1', description: 'This is a mock item.', creator: { _id: 'mock_id_1', username: 'MockUser', phoneNumber: '1234567890' } },
         { _id: '2', titre: 'Mock Item 2', description: 'This is another mock item.', creator: { _id: 'mock_id_2', username: 'OtherUser', phoneNumber: '0987654321' } }
-      ]);
+      ];
+      localStorage.setItem('demo_items', JSON.stringify(storedItems));
+      setItems(storedItems)
       setError(null);
+    } catch (err) {
+      setError(t('error_fetching_items'));
     } finally {
       setLoading(false)
     }
@@ -52,33 +49,21 @@ export default function Marketplace() {
 
     setIsSubmitting(true)
     
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(newItem)
-      })
-
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data.message || t('error_creating'))
-      }
-
-      await fetchItems()
-      setShowModal(false)
-      setNewItem({ titre: '', description: '' })
-    } catch (err) {
-      console.warn("Backend unavailable, mock adding item.");
-      setItems(prev => [...prev, { _id: Date.now().toString(), titre: newItem.titre, description: newItem.description, creator: { _id: 'mock_id_1', username: 'MockUser', phoneNumber: '1234567890' } }]);
-      setShowModal(false);
-      setNewItem({ titre: '', description: '' });
-      setSubmitError(null);
-    } finally {
-      setIsSubmitting(false)
-    }
+    // Demo Mode: Mock Add Item
+    const storedItems = JSON.parse(localStorage.getItem('demo_items')) || [];
+    const newItemData = { 
+      _id: Date.now().toString(), 
+      titre: newItem.titre, 
+      description: newItem.description, 
+      creator: { _id: 'mock_id_1', username: 'MockUser', phoneNumber: '1234567890' } 
+    };
+    const updatedItems = [...storedItems, newItemData];
+    localStorage.setItem('demo_items', JSON.stringify(updatedItems));
+    
+    await fetchItems()
+    setShowModal(false)
+    setNewItem({ titre: '', description: '' })
+    setIsSubmitting(false)
   }
 
   return (

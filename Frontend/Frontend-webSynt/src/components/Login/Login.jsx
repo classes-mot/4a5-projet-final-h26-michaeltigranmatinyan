@@ -24,31 +24,9 @@ export default function Login() {
       return
     }
 
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: form.username,
-          password: form.password
-        })
-      });
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      login(responseData.token)
-      navigate('/')
-    } catch (err) {
-      console.warn("Backend unavailable, using mock login.");
-      login("mock_token_123");
-      navigate("/");
-    }
+    // Demo Mode: Mock Login
+    login("mock_token_123");
+    navigate("/");
   }
 
   return (

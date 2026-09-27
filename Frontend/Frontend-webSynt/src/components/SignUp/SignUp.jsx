@@ -32,32 +32,9 @@ export default function SignUp() {
       return
     }
 
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: form.username,
-          password: form.password,
-          phoneNumber: form.phoneNumber
-        })
-      });
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      login(responseData.token)
-      navigate('/')
-    } catch (err) {
-      console.warn("Backend unavailable, using mock signup.");
-      login("mock_token_123");
-      navigate("/");
-    }
+    // Demo Mode: Mock Signup
+    login("mock_token_123");
+    navigate("/");
   }
 
   return (
